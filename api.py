@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import feedparser
 import yfinance as yf
-from google import genai
+import google.generativeai as genai
 import os
 
 app = FastAPI(title="Stock API", version="1.0")
@@ -15,7 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY", "YOUR_API_KEY"))
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY", "YOUR_API_KEY"))
 
 @app.get("/api/stock/{ticker}")
 def stock_analysis(ticker: str):
@@ -39,7 +39,8 @@ def stock_analysis(ticker: str):
     )
 
     try:
-        res = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        res = model.generate_content(prompt)
         signal = res.text.strip()
     except Exception as e:
         signal = f"NEUTRAL — Error: {str(e)}"
