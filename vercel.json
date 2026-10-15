@@ -17,8 +17,23 @@
       "dest": "api.py"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
-      "dest": "index.html"
+      "dest": "/index.html"
     }
   ]
 }
+```[file-tag: code-generated-file-24bbcc63-634e-4647-a442-ac576a4456f2]
+
+---
+
+### Push the Fix to GitHub
+Run these commands in your GitBash terminal:
+
+```bash
+cd ~/Desktop/stockapp
+git add vercel.json
+git commit -m "Fix routing for static assets in vercel.json"
+git push origin main
